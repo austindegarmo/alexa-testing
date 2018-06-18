@@ -19,3 +19,6 @@ exports.handler = function(event, context, callback){
     alexa.registerHandlers(handlers);
     alexa.execute();
 };
+
+// exports.handler sends the request to the AWS Services to translate the Lambda
+
