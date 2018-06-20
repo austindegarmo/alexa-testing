@@ -54,7 +54,7 @@ const handlers = {
     },
     'GetNewFactIntent': function () {
         const factArr = data;
-        const factIndex = Math.floor(Math.random() * factArr.length);
+        // const factIndex = Math.floor(Math.random() * factArr.length);
         const randomFact = factArr[factIndex];
         const speechOutput = GET_FACT_MESSAGE + randomFact;
 
