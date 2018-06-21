@@ -67,6 +67,7 @@ const handlers = {
 
     'SelectIndividualIntent': function () {
         const person = personInfo;
+        this.response.speak("Say things to show that this intent triggers");
         this.emit(":responseReady");
     },
 
