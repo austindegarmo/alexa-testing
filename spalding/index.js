@@ -44,17 +44,19 @@ const data = [
     'The Moon is moving approximately 3.8 cm away from our planet every year.',
 ];
 
+const personInfo = 'this person is a person';
+
 //=========================================================================================================================================
 //Editing anything below this line might break your skill.
 //=========================================================================================================================================
 
 const handlers = {
     'LaunchRequest': function () {
-        this.emit('GetNewFactIntent');
+        this.emit('SelectIndividualIntent');
     },
     'GetNewFactIntent': function () {
         const factArr = data;
-        // const factIndex = Math.floor(Math.random() * factArr.length);
+        const factIndex = Math.floor(Math.random() * factArr.length);
         const randomFact = factArr[factIndex];
         const speechOutput = GET_FACT_MESSAGE + randomFact;
 
@@ -62,6 +64,11 @@ const handlers = {
         this.response.speak(speechOutput);
         this.emit(':responseReady');
     },
+
+    'SelectIndividualIntent': function () {
+        const person = personInfo;
+    },
+
     'AMAZON.HelpIntent': function () {
         const speechOutput = HELP_MESSAGE;
         const reprompt = HELP_REPROMPT;
