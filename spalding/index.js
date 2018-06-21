@@ -67,6 +67,7 @@ const handlers = {
 
     'SelectIndividualIntent': function () {
         const person = personInfo;
+        this.emit(":responseReady");
     },
 
     'AMAZON.HelpIntent': function () {
