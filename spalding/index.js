@@ -1,3 +1,4 @@
+
 /* eslint-disable  func-names */
 /* eslint quote-props: ["error", "consistent"]*/
 /**
@@ -9,26 +10,26 @@
  **/
 
 'use strict';
-const Alexa = require('alexa-sdk');
+var Alexa = require('alexa-sdk');
 
 //=========================================================================================================================================
 //TODO: The items below this comment need your attention.
 //=========================================================================================================================================
 
 //Replace with your app ID (OPTIONAL).  You can find this value at the top of your skill's page on http://developer.amazon.com.
-//Make sure to enclose your value in quotes, like this: const APP_ID = 'amzn1.ask.skill.bb4045e6-b3e8-4133-b650-72923c5980f1';
-const APP_ID = undefined;
+//Make sure to enclose your value in quotes, like this: var APP_ID = 'amzn1.ask.skill.bb4045e6-b3e8-4133-b650-72923c5980f1';
+var APP_ID = undefined;
 
-const SKILL_NAME = 'Space Facts';
-const GET_FACT_MESSAGE = "Here's your fact: ";
-const HELP_MESSAGE = 'You can say tell me a space fact, or, you can say exit... What can I help you with?';
-const HELP_REPROMPT = 'What can I help you with?';
-const STOP_MESSAGE = 'Goodbye!';
+var SKILL_NAME = 'Space Facts';
+var GET_FACT_MESSAGE = "Here's your fact: ";
+var HELP_MESSAGE = 'You can say tell me a space fact, or, you can say exit... What can I help you with?';
+var HELP_REPROMPT = 'What can I help you with?';
+var STOP_MESSAGE = 'Goodbye!';
 
-//=========================================================================================================================================
-//TODO: Replace this data with your own.  You can find translations of this data at http://github.com/alexa/skill-sample-node-js-fact/data
-//=========================================================================================================================================
-const data = [
+// //=========================================================================================================================================
+// //TODO: Replace this data with your own.  You can find translations of this data at http://github.com/alexa/skill-sample-node-js-fact/data
+// //=========================================================================================================================================
+var data = [
     'A year on Mercury is just 88 days long.',
     'Despite being farther from the Sun, Venus experiences higher temperatures than Mercury.',
     'Venus rotates counter-clockwise, possibly because of a collision in the past with an asteroid.',
@@ -44,31 +45,30 @@ const data = [
     'The Moon is moving approximately 3.8 cm away from our planet every year.',
 ];
 
-const morganFry = 'this is morgan';
 
 //=========================================================================================================================================
 //Editing anything below this line might break your skill.
 //=========================================================================================================================================
 
-const handlers = {
-    'LaunchRequest': function () {
-        this.response.speak("Welcome to Austin's program , who would you like to know about?").listen("what was that?")
-        this.emit(':responseReady');
-    },
-    // 'GetNewFactIntent': function () {
-    //     const factArr = data;
-    //     const factIndex = Math.floor(Math.random() * factArr.length);
-    //     const randomFact = factArr[factIndex];
-    //     const speechOutput = GET_FACT_MESSAGE + randomFact;
 
-    //     this.response.cardRenderer(SKILL_NAME, randomFact);
-    //     this.response.speak(speechOutput);
-    //     this.emit(':responseReady');
-    // },
+
+var handlers = {
+    'LaunchRequest': function () {
+        this.response.speak("Ready to try again? Who would you like to know about?").listen();
+        this.emit(":responseReady");
+    },
+
 
     'SelectIndividualIntent': function () {
-        var person = this.event.request.intent.slots.person.value;
-        this.response.speak("morgan is a skater boy, he said see you later boy");
+        var individual = this.event.request.intent.slots.person.value;
+            
+        if (individual == "George bush") {
+
+            this.response.speak("A not cool person");
+        }
+        else{
+            this.response.speak("go fuck yourself");
+        }
         this.emit(":responseReady");
     },
 
@@ -86,11 +86,11 @@ const handlers = {
     'AMAZON.StopIntent': function () {
         this.response.speak(STOP_MESSAGE);
         this.emit(':responseReady');
-    },
-};
+    }
+}
 
 exports.handler = function (event, context, callback) {
-    const alexa = Alexa.handler(event, context, callback);
+    var alexa = Alexa.handler(event, context, callback);
     alexa.APP_ID = APP_ID;
     alexa.registerHandlers(handlers);
     alexa.execute();
