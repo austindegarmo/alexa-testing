@@ -60,8 +60,7 @@ var handlers = {
 
 
     'SelectIndividualIntent': function () {
-        var individual = this.event.request.intent.slots.person.value;
-            
+        var individual = this.event.request.intent.slots.person.value;         
         if (individual == "George bush") {
 
             this.response.speak("A not cool person");
@@ -72,6 +71,41 @@ var handlers = {
         this.emit(":responseReady");
     },
 
+    'SelectHousemateIntent': function () {
+        var guy = this.event.request.intent.slots.dude.value;
+        if (guy == "Morgan fryman") {
+
+            this.response.speak("Skate or die");
+        }
+        else{
+            this.response.speak("didn't work again");
+        }
+        this.emit(":responseReady");
+    },
+
+    'SelectBrettIntent': function () {
+        var dough = this.event.request.intent.slots.doughnut.value;
+        if (dough == "bear claw") {
+            this.response.speak("An artist who grows dope weed");
+        }
+        else {
+            this.response.speak("didn't work for the dough");
+        }
+        this.emit(":responseReady");
+
+    },
+
+    'SelectJoeyIntent': function () {
+        var hearth = this.event.request.intent.slots.hearthstone.value;
+        if (hearth == "joey maxey") {
+            this.response.speak("Joey's function worked");
+        }
+        else {
+            this.response.speak("nope, not today");
+        }
+        this.emit("responseReady");
+    },
+ 
     'AMAZON.HelpIntent': function () {
         const speechOutput = HELP_MESSAGE;
         const reprompt = HELP_REPROMPT;
