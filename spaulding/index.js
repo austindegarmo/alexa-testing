@@ -9,9 +9,15 @@ var handlers = {
   },
 
   'LanguageIntent': function () {
-    this.response.speak("Python is our most popular language.");
+    var myLanguage = this.event.request.intent.slots.language.value;
+    if (myLanguage == "python") {
+        this.response.speak("Correct! Python is the most popular language.");
+    }
+    else {
+        this.response.speak("You guessed that " + myLanguage + " is the most popular. Actually, Python is our most popular language");
+    }
     this.emit(':responseReady');
-  },
+  }
 }
 
 exports.handler = function(event, context, callback){
@@ -19,6 +25,3 @@ exports.handler = function(event, context, callback){
     alexa.registerHandlers(handlers);
     alexa.execute();
 };
-
-// exports.handler sends the request to the AWS Services to translate the Lambda
-
