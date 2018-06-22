@@ -44,7 +44,7 @@ const data = [
     'The Moon is moving approximately 3.8 cm away from our planet every year.',
 ];
 
-const personInfo = 'this person is a person';
+const morganFry = 'this is morgan';
 
 //=========================================================================================================================================
 //Editing anything below this line might break your skill.
@@ -52,22 +52,23 @@ const personInfo = 'this person is a person';
 
 const handlers = {
     'LaunchRequest': function () {
-        this.emit('SelectIndividualIntent');
-    },
-    'GetNewFactIntent': function () {
-        const factArr = data;
-        const factIndex = Math.floor(Math.random() * factArr.length);
-        const randomFact = factArr[factIndex];
-        const speechOutput = GET_FACT_MESSAGE + randomFact;
-
-        this.response.cardRenderer(SKILL_NAME, randomFact);
-        this.response.speak(speechOutput);
+        this.response.speak("Welcome to Austin's program , who would you like to know about?").listen("what was that?")
         this.emit(':responseReady');
     },
+    // 'GetNewFactIntent': function () {
+    //     const factArr = data;
+    //     const factIndex = Math.floor(Math.random() * factArr.length);
+    //     const randomFact = factArr[factIndex];
+    //     const speechOutput = GET_FACT_MESSAGE + randomFact;
+
+    //     this.response.cardRenderer(SKILL_NAME, randomFact);
+    //     this.response.speak(speechOutput);
+    //     this.emit(':responseReady');
+    // },
 
     'SelectIndividualIntent': function () {
-        const person = personInfo;
-        this.response.speak("Say things to show that this intent triggers");
+        var person = this.event.request.intent.slots.person.value;
+        this.response.speak("morgan is a skater boy, he said see you later boy");
         this.emit(":responseReady");
     },
 
