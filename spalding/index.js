@@ -97,13 +97,33 @@ var handlers = {
 
     'SelectJoeyIntent': function () {
         var hearth = this.event.request.intent.slots.hearthstone.value;
-        if (hearth == "joey maxey") {
+        if (hearth == "joe maxey") {
             this.response.speak("Joey's function worked");
         }
         else {
             this.response.speak("nope, not today");
         }
         this.emit("responseReady");
+    },
+
+    'SelectCraigIntent': function () {
+        var cheese = this.event.request.intent.slots.ranchme.value;
+        if (cheese == "craig yannow") {
+            this.response.speak("Ranch me bro");
+        } else {
+            this.response.speak("no ranch for you");
+        }
+        this.emit(":responseReady");
+    },
+
+    'SelectChristopherIntent': function () {
+        var veg = this.event.request.intent.slots.uglyproduce.value;
+        if (veg == "Christopher steiner") {
+            this.response.speak("vegetable gang");
+        } else {
+            this.response.speak("no veggie tales for you");
+        }
+        this.emit(":responseReady");
     },
  
     'AMAZON.HelpIntent': function () {
