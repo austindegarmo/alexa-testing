@@ -283,7 +283,7 @@ var AskQuestion = function(attributes) {
 
   exports.handler = function(event, context, callback){
     var alexa = Alexa.handler(event, context, callback);
-
+    alex.dynamoDBTableName = 'HekTable';
     alexa.registerHandlers(handlers);
     alexa.execute();
   };
