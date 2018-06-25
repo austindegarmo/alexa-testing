@@ -11,6 +11,197 @@ var flashcardsDictionary = [
     state: 'Hawaii',
     capital: 'Honolulu'
   },
+  {
+    state: 'Alabama',
+    capital: 'Montgomery'
+  },
+  {
+    state: 'Alaska',
+    capital: 'Juneau'
+  },{
+    state: 'Arizona',
+    capital: 'Phoenix'
+  },
+  {
+    state: 'Arkansas',
+    capital: 'Little Rock'
+  },
+  {
+    state: 'Colorado',
+    capital: 'Denver'
+  },
+  {
+    state: 'Connecticut',
+    capital: 'Hartford'
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  },
+  {
+    state: '',
+    capital: ''
+  }
 ];
 
 var DECK_LENGTH = flashcardsDictionary.length;
@@ -19,8 +210,20 @@ var handlers = {
 
   // Open Codecademy Flashcards
   'LaunchRequest': function() {
+    if (Object.keys(this.attributes).length === 0) {
+      this.attributes.flashcards = {
+        this.attributes.numberCorrect = 0;
+        this.attributes.currentFlashcardIndex = 0;
+      }
+      this.response.speak("Welcome home slice").listen(AskQuestion(this.attributes));
+    }
+    else {
+        this.response.speak("Welcome back to Flashcards. You are on question " + currentFlashcardIndex + "and have answered " + numberCorrect +  "correctly. " + AskQuestion);
 
-  },
+      }
+      this.emit(':responseReady');
+  }, 
+
 
   // User gives an answer
   'AnswerIntent': function() {
