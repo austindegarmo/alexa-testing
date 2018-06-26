@@ -235,15 +235,23 @@ var handlers = {
     var userAnswer = this.event.request.intent.slots.answer.value;
     var currentFlashcardIndex = this.attributes.flashcards.currentFlashcardIndex;   
     var correctAnswer = flashcardsDictionary[currentFlashcardIndex].capital;
+
     if (userAnswer === correctAnswer) {
       this.attributes.flashcards.numberCorrect++;
       var numberCorrect = this.attributes.flashcards.numberCorrect;
       this.attributes.flashcards.currentFlashcardIndex++;
+      this.response.speak("Nice job! the correct answer is" + correctAnswer + ". You have gotten" + numberCorrect + "questions correct out of" + DECK_LENGTH + "questions correct. Here is your next question." + AskQuestion(this.attributes)).listen(AskQuestion(this.attributes));
      } else {
-      this.response.speak("You were wrong, the next question is" + AskQuestion);
+      var numberCorrect = this.attributes.flashcards.numberCorrect;
       this.attributes.flashcards.currentFlashcardIndex++;
+      this.responsespeak('Sorry, the correct answer is ' + correctAnswer + '. You ' +
+          'have gotten ' + numberCorrect + ' out of ' + DECK_LENGTH +
+          ' questions correct. Here is your next question. ' +
+          AskQuestion(this.attributes))
+        .listen(AskQuestion(this.attributes));
+      
     }
-    this,.emit(":responseReady");
+    this.emit(":responseReady");
 
   },
 
