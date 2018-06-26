@@ -212,20 +212,18 @@ var handlers = {
   'LaunchRequest': function() {
     if (Object.keys(this.attributes).length === 0) {
       this.attributes.flashcards = {
-        'currentState': {
-          'state': '',
-          'capital': '',
           'numberCorrect': 0,
           'currentFlashcardIndex': 0
 
-        }
-        this.response.speak("Welcome home slice").listen(AskQuestion(this.attributes));
-        // this.attributes.numberCorrect = 0;
-        // this.attributes.currentFlashcardIndex = 0;
+        };
+        this.response.speak(AskQuestion(this.attributes)).listen(AskQuestion(this.attributes));
+       
       }
     }
     else {
-        this.response.speak("Welcome back to Flashcards. You are on question " + currentFlashcardIndex + "and have answered " + numberCorrect +  "correctly. " + AskQuestion).listen(AskQuestion);
+      var currentIndex = this.attributes.flashcards.currentFlashcardIndex;
+      var numberCorrect = this.attributes.flashcards.numberCorrect;
+        this.response.speak("Welcome back to Flashcards. You are on question " + currentFlashcardIndex + "and have answered " + numberCorrect +  "correctly. " + AskQuestion(attributes)).listen();
 
       }
       this.emit(':responseReady');
@@ -234,16 +232,18 @@ var handlers = {
 
   // User gives an answer
   'AnswerIntent': function() {
-    var currentFlashcardIndex = this.attributes.flashcards.currentFlashcardIndex;   
     var userAnswer = this.event.request.intent.slots.answer.value;
-    var correctAnswer = flashcardsDictionary[currentFlashcardIndex];
+    var currentFlashcardIndex = this.attributes.flashcards.currentFlashcardIndex;   
+    var correctAnswer = flashcardsDictionary[currentFlashcardIndex].capital;
     if (userAnswer === correctAnswer) {
       this.attributes.flashcards.numberCorrect++;
+      var numberCorrect = this.attributes.flashcards.numberCorrect;
       this.attributes.flashcards.currentFlashcardIndex++;
-    } else {
-      this.response.speak("You were wrong, the next quesion is" + AskQuestion);
+     } else {
+      this.response.speak("You were wrong, the next question is" + AskQuestion);
       this.attributes.flashcards.currentFlashcardIndex++;
     }
+    this,.emit(":responseReady");
 
   },
 
