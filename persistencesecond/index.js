@@ -33,175 +33,8 @@ var flashcardsDictionary = [
   {
     state: 'Connecticut',
     capital: 'Hartford'
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
-  },
-  {
-    state: '',
-    capital: ''
   }
+  
 ];
 
 var DECK_LENGTH = flashcardsDictionary.length;
@@ -219,15 +52,16 @@ var handlers = {
         this.response.speak(AskQuestion(this.attributes)).listen(AskQuestion(this.attributes));
        
       }
-    }
+    
     else {
-      var currentIndex = this.attributes.flashcards.currentFlashcardIndex;
+      var currentFlashcardIndex = this.attributes.flashcards.currentFlashcardIndex;
       var numberCorrect = this.attributes.flashcards.numberCorrect;
-        this.response.speak("Welcome back to Flashcards. You are on question " + currentFlashcardIndex + "and have answered " + numberCorrect +  "correctly. " + AskQuestion(attributes)).listen();
+        this.response.speak("Welcome back to Flashcards. You are on question " + currentFlashcardIndex + "and have answered " + numberCorrect +  "correctly. " + AskQuestion(this.attributes)).listen();
 
       }
       this.emit(':responseReady');
-  }, 
+   },  
+   
 
 
   // User gives an answer
@@ -256,6 +90,8 @@ var handlers = {
   },
 
 
+
+
   // Stop
   'AMAZON.StopIntent': function() {
     this.response.speak('Ok, let\'s play again soon.');
@@ -274,6 +110,7 @@ var handlers = {
     this.emit(':saveState', true);
   }
 
+
 };
 
 // Test my {language} knowledge
@@ -291,7 +128,7 @@ var AskQuestion = function(attributes) {
 
   exports.handler = function(event, context, callback){
     var alexa = Alexa.handler(event, context, callback);
-    alex.dynamoDBTableName = 'HekTable';
+    alexa.dynamoDBTableName = 'HekTable';
     alexa.registerHandlers(handlers);
     alexa.execute();
   };
