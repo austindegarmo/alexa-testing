@@ -56,7 +56,7 @@ var handlers = {
     else {
       var currentFlashcardIndex = this.attributes.flashcards.currentFlashcardIndex;
       var numberCorrect = this.attributes.flashcards.numberCorrect;
-        this.response.speak("Welcome back to Flashcards. You are on question " + currentFlashcardIndex + "and have answered " + numberCorrect +  "correctly. " + AskQuestion(this.attributes)).listen();
+        this.response.speak("Welcome back to Flashcards. You are on question " + currentFlashcardIndex + " and have answered " + numberCorrect +  " correctly. " + AskQuestion(this.attributes)).listen();
 
       }
       this.emit(':responseReady');
