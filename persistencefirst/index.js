@@ -28,29 +28,56 @@ var handlers = {
 
   // Open Codecademy Flashcards
   'LaunchRequest': function() {
-    this.attributes['language'] = '';
-    this.attributes['numberCorrect'] = 0;
-    this.attributes['currentFlashcardIndex'] = 0;
+    if (Object.keys(this.attributes).length === 0) {
+      this.attributes.flashcards = {
+        'currentLanguage': '',
+        'languages': {
+          'ruby': {
+            'numberCorrect': 0,
+            'currentFlashcardIndex': 0
+          },
+          'python': {
+            'numberCorrect': 0,
+            'currentFlashcardIndex': 0
+          },
+          'javascript': {
+            'numberCorrect': 0,
+            'currentFlashcardIndex': 0
+          }
+        }
+      };
 
-    this.response
-        .listen('Welcome to Flashcards. In this session, do you want to test' +
-        ' your knowledge in Ruby, Python, or Javascript?').speak(
-        'Which language would you like to practice?');
+      this.response
+        .speak('Welcome to Flashcards. Do you want to test your knowledge ' +
+          'in Ruby, Python, or Javascript?')
+        .listen('Which language would you like to practice?'); 
+      
+    } else { 
+      var currentLanguage = this.attributes.flashcards.currentLanguage; 
+      var numberCorrect = this.attributes.flashcards.languages[currentLanguage].numberCorrect; 
+      var currentFlashcardIndex = this.attributes.flashcards.languages[currentLanguage].currentFlashcardIndex;
+
+      this.response
+        .speak('Welcome back to Flashcards. You are currently working on ' +
+          currentLanguage + '. You\'re on question ' + currentFlashcardIndex +
+          ' and have answered ' + numberCorrect + ' correctly.' +
+          ' Do you want to test your knowledge in Ruby, Python, or Javascript?')
+        .listen('Which language would you like to practice?');
+
+    }
     this.emit(':responseReady');
   },
 
   'SetMyLanguageIntent': function() {
-    this.attributes['language'] = this.event.request.intent.slots.languages.value;
-
-    if (this.attributes['language'] === 'JavaScript') {
-      this.attributes['language'] = 'javascript';
+    this.attributes.flashcards.currentLanguage = this.event.request.intent.slots.languages.value;
+    if (this.attributes.flashcards.currentLanguage === 'JavaScript') {
+      this.attributes.flashcards.currentLanguage = 'javascript';
     }
-
-    var language = this.attributes['language'];
+    var currentLanguage = this.attributes.flashcards.currentLanguage
 
     this.response
       .speak('Okay, I will ask you some questions about ' +
-        language + '. Here is your first question. ' + 
+        currentLanguage + '. Here is your first question. ' + 
         AskQuestion(this.attributes))
       .listen(AskQuestion(this.attributes));
 
@@ -59,28 +86,28 @@ var handlers = {
 
   // User gives an answer
   'AnswerIntent': function() {
+    var currentLanguage = this.attributes.flashcards.currentLanguage;
+    var currentFlashcardIndex = this.attributes.flashcards.languages[currentLanguage].currentFlashcardIndex;
     var userAnswer = this.event.request.intent.slots.answer.value;
-    var language = this.attributes['language'];
-    var languageAnswer = language + 'Answer';
-    var currentFlashcardIndex = this.attributes['currentFlashcardIndex'];
+    var languageAnswer = currentLanguage + 'Answer';
     var correctAnswer = flashcardsDictionary[currentFlashcardIndex][languageAnswer];
 
-    if (userAnswer === correctAnswer){
-      this.attributes['numberCorrect']++;
-      var numberCorrect = this.attributes['numberCorrect'];
-      this.attributes['currentFlashcardIndex']++;
+    if (userAnswer == correctAnswer){
+      this.attributes.flashcards.languages[currentLanguage].numberCorrect++;
+      var numberCorrect = this.attributes.flashcards.languages[currentLanguage].numberCorrect;
+      this.attributes.flashcards.languages[currentLanguage].currentFlashcardIndex++;
       this.response
         .speak('Nice job! The correct answer is ' + correctAnswer + '. You ' +
           'have gotten ' + numberCorrect + ' out of ' + DECK_LENGTH + ' ' +
-          language + ' questions correct. Here is your next question. ' + AskQuestion(this.attributes))
+          currentLanguage + ' questions correct. Here is your next question. ' + AskQuestion(this.attributes))
         .listen(AskQuestion(this.attributes));
     } else {
-      var numberCorrect = this.attributes['numberCorrect'];
-      this.attributes['currentFlashcardIndex']++;
+      var numberCorrect = this.attributes.flashcards.languages[currentLanguage].numberCorrect;
+      this.attributes.flashcards.languages[currentLanguage].currentFlashcardIndex++;
       this.response
         .speak('Sorry, the correct answer is ' + correctAnswer + '. You ' +
           'have gotten ' + numberCorrect + ' out of ' + DECK_LENGTH + ' ' +
-          language + ' questions correct. Here is your next question. ' + 
+          currentLanguage + ' questions correct. Here is your next question. ' + 
           AskQuestion(this.attributes))
         .listen(AskQuestion(this.attributes));
     }
@@ -98,26 +125,36 @@ var handlers = {
   'AMAZON.CancelIntent': function() {
     this.response.speak('Ok, let\'s play again soon.');
     this.emit(':responseReady');
-  }
+  },
 
+  // Save state
+  'SessionEndedRequest': function() {
+    console.log('session ended!');
+    this.emit(':saveState', true);
+  }
 
 };
 
 // Test my {language} knowledge
 var AskQuestion = function(attributes) {
-  var language = attributes['language'];
-  var currentFlashcardIndex = attributes['currentFlashcardIndex'];
+  var currentLanguage = attributes.flashcards.currentLanguage;
+  console.log('currentLanguage: ' + currentLanguage);
+  console.log('flashcards: ');
+  console.log(attributes.flashcards);
+  var currentFlashcardIndex = attributes.flashcards.languages[currentLanguage].currentFlashcardIndex;
+  console.log('currentFlashcardIndex: ' + currentFlashcardIndex);
 
   if (currentFlashcardIndex >= flashcardsDictionary.length) {
     return 'No questions remaining';
   } else {
     var currentQuestion = flashcardsDictionary[currentFlashcardIndex].question;
-    return 'In ' + language + ', ' + currentQuestion;
+    return 'In ' + currentLanguage + ', ' + currentQuestion;
   }
 };
 
 exports.handler = function(event, context, callback){
   var alexa = Alexa.handler(event, context, callback);
+  alexa.dynamoDBTableName = 'CodecademyFlashcards';
   alexa.registerHandlers(handlers);
   alexa.execute();
 };

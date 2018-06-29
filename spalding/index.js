@@ -89,18 +89,17 @@ var handlers = {
             this.response.speak("An artist who grows dope weed");
         }
         else {
-            this.response.speak("didn't work for the dough");
+            this.response.speak("didn't work ");
         }
         this.emit(":responseReady");
 
     },
 
     'SelectJoeyIntent': function () {
-        var hearth = this.event.request.intent.slots.hearthstone.value;
-        if (hearth == "joe maxey") {
+        var guns = this.event.request.intent.slots.hearthstone.value;
+        if (guns == "Joe Maxey") {
             this.response.speak("Joey's function worked");
-        }
-        else {
+        } else {
             this.response.speak("nope, not today");
         }
         this.emit("responseReady");
@@ -109,7 +108,7 @@ var handlers = {
     'SelectCraigIntent': function () {
         var cheese = this.event.request.intent.slots.ranchme.value;
         if (cheese == "craig yannow") {
-            this.response.speak("Ranch me bro");
+            this.response.speak("what's up simple simon? I just got back from the legalize herion convention. yo, three eleven never happened. buzz me mulatto.");
         } else {
             this.response.speak("no ranch for you");
         }
@@ -118,12 +117,32 @@ var handlers = {
 
     'SelectChristopherIntent': function () {
         var veg = this.event.request.intent.slots.uglyproduce.value;
-        if (veg == "Christopher steiner") {
+        if (veg == "Christopher Steiner") {
             this.response.speak("vegetable gang");
         } else {
             this.response.speak("no veggie tales for you");
         }
         this.emit(":responseReady");
+    },
+
+    'SelectEricIntent': function () {
+        var drank = this.event.request.intent.slots.whiskey.value;
+        if (drank == "Eric Freedman") {
+            this.response.speak("Looking like vegeta ass mother fucker. Doesn't like baseball because he's lame. Doesn't drink whiskey because he prefers wine.");
+        } else {
+            this.response.speak("kakarot no");
+        }
+        this.emit(":responseReady");
+    },
+
+    'SelectJaredIntent': function () {
+        var taco = this.event.request.intent.slots.beardstache.value;
+        if (taco == 'Jared smith') {
+            this.response.speak("Beard therapy");
+        } else {
+            this.response.speak("obama bin laden");
+        }
+        this.emit("responseReady");
     },
  
     'AMAZON.HelpIntent': function () {
